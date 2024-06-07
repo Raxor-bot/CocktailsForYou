@@ -1,5 +1,19 @@
 # CocktailsForYou
 
+
+Es handelt sich um ein Angular Projekt, ich lasse mal die Offiziele Anleitung drin, wobei ich denke das sie es zum laufen bekommen :) 
+Bei Fragen per Mail melden
+
+
+
+
+
+
+
+
+
+
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.2.
 
 ## Development server
