@@ -1,0 +1,43 @@
+<div class="cocktail-item">
+  <div class="summary" (click)="toggleExpand()" *ngIf="!isExpanded">
+    <div class="info">
+      <h3>{{ cocktail.name }}</h3>
+      <p>Zutaten: {{ cocktail.shortIngredients.join(', ') }}</p>
+      <p>Schwierigkeit: {{ cocktail.schwierigkeit }}</p>
+      <p>Preisklasse: {{ cocktail.preisklasse }}</p>
+      <p>Alkohol: {{ cocktail.alk }}</p>
+    </div>
+    <div class="image">
+      <img [src]="cocktail.bild" alt="{{ cocktail.name }}" />
+    </div>
+  </div>
+  <div class="details" *ngIf="isExpanded">
+    <div class="details-header">
+      <h4>{{ cocktail.name }}</h4>
+      <button class="collapse-button" (click)="toggleExpand()">X</button>
+    </div>
+    <div class="details-content">
+      <div class="left-content">
+        <div class="ingredients">
+          <h5>Zutaten</h5>
+          <ul>
+            <li *ngFor="let ingredient of cocktail.ingredients">{{ ingredient }}</li>
+          </ul>
+        </div>
+        <div class="equipment">
+          <h5>Zubehör</h5>
+          <ul>
+            <li *ngFor="let item of cocktail.equipment">{{ item }}</li>
+          </ul>
+        </div>
+        <div class="recipe">
+          <h5>Rezept</h5>
+          <p>{{ cocktail.recipe }}</p>
+        </div>
+      </div>
+      <div class="large-image">
+        <img [src]="cocktail.bild" alt="{{ cocktail.name }}" />
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,17 @@
+<div class="filter-menu">
+  <div class="filter-section">
+    <h3>Muss Rein</h3>
+    <div *ngFor="let ingredient of includedIngredients">
+      <input type="text" [(ngModel)]="ingredient.value" placeholder="Zutat eingeben">
+    </div>
+    <button (click)="addIncludedIngredient()">+</button>
+  </div>
+  <div class="filter-section">
+    <h3>Muss Raus</h3>
+    <div *ngFor="let ingredient of excludedIngredients">
+      <input type="text" [(ngModel)]="ingredient.value" placeholder="Zutat eingeben">
+    </div>
+    <button (click)="addExcludedIngredient()">+</button>
+  </div>
+  <button class="search-button" (click)="applyFilters()">Suchen</button>
+</div>
