@@ -43,7 +43,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 Gesamt Ansicht
 ![image](https://github.com/Raxor-bot/CocktailsForYou/assets/74327035/f6a5a26b-8c54-4fe4-bc5c-2eb259da02c7)
 
-Nach Ipanema gefiltert
+Nach Ip gefiltert
 ![image](https://github.com/Raxor-bot/CocktailsForYou/assets/74327035/aaf0fb8a-f589-488d-92e3-1b6a78a277d9)
 
 Nur Rum
