@@ -1,0 +1,40 @@
+// Farben definieren
+$background-color: #121212;
+$text-color: #d3d3d3;
+$accent-color: #a020f0; // Lila
+
+// Globale Stile
+body {
+  background-color: $background-color;
+  color: $text-color;
+  font-family: 'Open Sans', sans-serif;
+}
+
+a {
+  color: $accent-color;
+}
+
+button {
+  background-color: $accent-color;
+  color: $text-color;
+  border: none;
+  padding: 10px 20px;
+  cursor: pointer;
+  border-radius: 5px;
+
+  &:hover {
+    background-color: darken($accent-color, 10%);
+  }
+}
+
+// Container für die App
+.container {
+  width: 80%;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+// Spezifische Stile für Überschriften
+h1, h2, h3 {
+  font-family: 'Pacifico', cursive;
+}
