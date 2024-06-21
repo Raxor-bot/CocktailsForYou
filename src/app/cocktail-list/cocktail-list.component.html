@@ -1,9 +1,22 @@
 <div class="search-bar-container">
   <app-search-bar (searchEvent)="onSearch($event)"></app-search-bar>
   <button (click)="toggleFilterMenu()" class="filter-button">Filter</button>
+  <button (click)="randomCocktail()" class="reset-button">
+    Zufall
+    <fa-icon [icon]="['fas', 'random']"></fa-icon>
+  </button>
   <button (click)="resetSearch()" class="reset-button">Zurücksetzen</button>
 </div>
+
 <div class="cocktail-list">
   <app-filter-menu *ngIf="showFilterMenu" (filterApplied)="onFilterApplied($event)"></app-filter-menu>
-  <app-cocktail-item *ngFor="let cocktail of filteredCocktails" [cocktail]="cocktail"></app-cocktail-item>
+
+  <div  class="search-status">{{ searchStatus }}</div>
+
+  <app-cocktail-item
+    *ngFor="let cocktail of filteredCocktails"
+    [cocktail]="cocktail"
+    [isExpanded]="filteredCocktails.length === 1"
+    [ngClass]="{'cocktail-item expanded': filteredCocktails.length === 1}"
+  ></app-cocktail-item>
 </div>

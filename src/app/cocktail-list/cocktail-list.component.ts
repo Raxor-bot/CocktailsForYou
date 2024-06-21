@@ -1,9 +1,10 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, OnInit, QueryList, ViewChild, ViewChildren} from '@angular/core';
 import {CocktailItemComponent} from "../cocktail-item/cocktail-item.component";
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import {SearchBarComponent} from "../search-bar/search-bar.component";
 import {FilterMenuComponent} from "../filter-menu/filter-menu.component";
 import {FormsModule} from "@angular/forms";
+import {FaIconComponent} from "@fortawesome/angular-fontawesome";
 
 @Component({
   selector: 'app-cocktail-list',
@@ -14,14 +15,21 @@ import {FormsModule} from "@angular/forms";
     SearchBarComponent,
     FilterMenuComponent,
     NgIf,
-    FormsModule
+    FormsModule,
+    FaIconComponent,
+    NgClass
   ],
   templateUrl: './cocktail-list.component.html',
   styleUrl: './cocktail-list.component.scss'
 })
 
 export class CocktailListComponent implements OnInit {
+  @ViewChild(SearchBarComponent) searchBar!: SearchBarComponent;
+  @ViewChildren(CocktailItemComponent) cocktailItems!: QueryList<CocktailItemComponent>;
+
   showFilterMenu = false;
+  searchText: string = '';
+  searchStatus = 'Top-Empfehlungen';
 
   allCocktails = [
     {
@@ -150,10 +158,8 @@ export class CocktailListComponent implements OnInit {
   filteredCocktails = [...this.allCocktails];
 
   ngOnInit() {
-    this.filteredCocktails = this.shuffleArray([...this.allCocktails]);
   }
 
-  searchQuery = '';
 
   toggleFilterMenu() {
     this.showFilterMenu = !this.showFilterMenu;
@@ -173,29 +179,78 @@ export class CocktailListComponent implements OnInit {
 
       return includesAll && excludesAll;
     });
-    this.filteredCocktails = this.shuffleArray(this.filteredCocktails);
     this.showFilterMenu = false;
   }
 
   constructor() { }
 
   onSearch(searchText: string): void {
-    this.filteredCocktails = this.allCocktails.filter(cocktail =>
-      cocktail.name.toLowerCase().startsWith(searchText.toLowerCase())
-    );
+    this.searchText = searchText;
+    const tolerance = 2; // Maximal erlaubte Levenshtein-Distanz
+
+    this.filteredCocktails = this.allCocktails.filter(cocktail => {
+      const name = cocktail.name.toLowerCase();
+      const search = searchText.toLowerCase();
+      const distance = levenshtein(name, search);
+      return distance <= tolerance || name.startsWith(search);
+    });
+
+    this.updateSearchStatus();
   }
 
   resetSearch() {
-    this.searchQuery = '';
+    this.searchText = '';
     this.filteredCocktails = [...this.allCocktails];
+    this.updateSearchStatus();
+    this.searchBar.searchText = '';
+
+    this.cocktailItems.forEach(item => item.resetExpand());
   }
 
-  //Random Reihenfolge der Cocktails
-  shuffleArray(array: any[]) {
-    for (let i = array.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [array[i], array[j]] = [array[j], array[i]];
+  updateSearchStatus() {
+    const count = this.filteredCocktails.length;
+    const term = count === 1 ? 'Cocktail' : 'Cocktails';
+    if (this.searchText) {
+      this.searchStatus = `${count} ${term} gefunden für "${this.searchText}"`;
+    } else {
+      this.searchStatus = "Top-Empfehlungen"; // Set the status to an empty string if searchText is empty
     }
-    return array;
   }
+
+  randomCocktail() {
+    this.filteredCocktails = this.allCocktails
+    const randomIndex = Math.floor(Math.random() * this.filteredCocktails.length);
+    const randomCocktail = this.filteredCocktails[randomIndex];
+    this.filteredCocktails = [randomCocktail]
+    this.searchStatus = "Wie wär's hiermit? Nicht dein Geschmack?! Probier's einfach nochmal!"
+    this.searchBar.searchText = '';
+  }
+}
+
+function levenshtein(a: string, b: string): number {
+  const matrix = [];
+
+  // Initialisiere die Matrix
+  for (let i = 0; i <= b.length; i++) {
+    matrix[i] = [i];
+  }
+  for (let j = 0; j <= a.length; j++) {
+    matrix[0][j] = j;
+  }
+
+  // Fülle die Matrix
+  for (let i = 1; i <= b.length; i++) {
+    for (let j = 1; j <= a.length; j++) {
+      if (b.charAt(i - 1) === a.charAt(j - 1)) {
+        matrix[i][j] = matrix[i - 1][j - 1];
+      } else {
+        matrix[i][j] = Math.min(
+          matrix[i - 1][j - 1] + 1, // Ersetzen
+          matrix[i][j - 1] + 1,     // Einfügen
+          matrix[i - 1][j] + 1      // Löschen
+        );
+      }
+    }
+  }
+  return matrix[b.length][a.length];
 }

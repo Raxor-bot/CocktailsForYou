@@ -1,27 +1,31 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {NgForOf, NgIf} from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-cocktail-item',
   standalone: true,
   imports: [
     NgIf,
-    NgForOf
+    NgForOf,
+    NgClass
   ],
   templateUrl: './cocktail-item.component.html',
   styleUrl: './cocktail-item.component.scss'
 })
 export class CocktailItemComponent implements OnInit{
   @Input() cocktail: any;
-  isExpanded = false;
+  @Input() isExpanded: boolean = false;
 
   constructor() { }
 
+  ngOnInit(): void {
+  }
 
   toggleExpand() {
     this.isExpanded = !this.isExpanded;
   }
 
-  ngOnInit(): void {
+  resetExpand(){
+    this.isExpanded = false;
   }
 }

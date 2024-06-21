@@ -1,4 +1,4 @@
-<div class="cocktail-item">
+<div class="cocktail-item" [class.expanded]="isExpanded">
   <div class="summary" (click)="toggleExpand()" *ngIf="!isExpanded">
     <div class="info">
       <h3>{{ cocktail.name }}</h3>
@@ -30,14 +30,14 @@
             <li *ngFor="let item of cocktail.equipment">{{ item }}</li>
           </ul>
         </div>
-        <div class="recipe">
-          <h5>Rezept</h5>
-          <p>{{ cocktail.recipe }}</p>
-        </div>
       </div>
       <div class="large-image">
         <img [src]="cocktail.bild" alt="{{ cocktail.name }}" />
       </div>
+    </div>
+    <div class="recipe">
+      <h5>Rezept</h5>
+      <p>{{ cocktail.recipe }}</p>
     </div>
   </div>
 </div>

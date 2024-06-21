@@ -14,6 +14,7 @@ import {FormsModule} from "@angular/forms";
 })
 export class SearchBarComponent {
   searchText: string = '';
+
   @Output() searchEvent = new EventEmitter<string>();
 
   constructor(library: FaIconLibrary) {
