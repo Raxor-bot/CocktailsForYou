@@ -1,67 +1,77 @@
 .filter-menu {
-  background-color: #1e1e1e;
-  color: #d3d3d3;
-  border: 2px solid #8000c0;
-  padding: 20px;
+  background-color: #121212; // Hintergrundfarbe der Filterbox
+  border: 1px solid #6200ea; // Lilaner Rand
   border-radius: 10px;
+  padding: 20px;
+  color: #e0e0e0; // Helle Schriftfarbe
   max-width: 400px;
   margin: 20px auto;
-  text-align: left;
 
-  .filter-section {
-    margin-bottom: 20px;
+  h3 {
+    color: #bb86fc; // Helle lila Farbe für die Überschriften
+    margin-bottom: 10px;
+  }
 
-    h3 {
-      color: #8000c0;
-      font-family: 'Pacifico', cursive;
-    }
+  .ingredient-input {
+    display: flex;
+    margin-bottom: 10px;
 
     input {
-      width: 100%;
-      margin: 5px 0;
-      padding: 5px;
-      border: 1px solid #8000c0;
+      flex: 1;
+      padding: 10px;
+      border: 1px solid #6200ea;
       border-radius: 5px;
-      background-color: #121212;
-      color: #d3d3d3;
+      background-color: #333333;
+      color: #e0e0e0;
+      margin-right: 10px;
+
+      &::placeholder {
+        color: #bdbdbd;
+      }
     }
 
     button {
-      background-color: #8000c0;
-      color: #d3d3d3;
+      background-color: #6200ea;
       border: none;
-      padding: 5px 10px;
-      cursor: pointer;
+      color: white;
+      padding: 10px;
       border-radius: 5px;
-      font-size: 16px;
+      cursor: pointer;
 
       &:hover {
-        background-color: darken(#8000c0, 10%);
-      }
-    }
-
-    label {
-      display: block;
-      margin: 5px 0;
-
-      input {
-        margin-right: 10px;
+        background-color: #3700b3;
       }
     }
   }
 
-  .search-button {
-    background-color: #8000c0;
-    color: #d3d3d3;
-    border: none;
-    padding: 10px 20px;
-    cursor: pointer;
-    border-radius: 5px;
-    font-size: 16px;
-    width: 100%;
+  ul {
+    list-style: none;
+    padding: 0;
 
-    &:hover {
-      background-color: darken(#8000c0, 10%);
+    li {
+      background-color: #333333;
+      padding: 10px;
+      border-radius: 5px;
+      margin-bottom: 5px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      button {
+        background-color: transparent;
+        border: none;
+        color: #ff5252;
+        cursor: pointer;
+        font-size: 12px;
+        text-decoration: underline;
+      }
     }
   }
+}
+
+h4 {
+  margin: 0 0 10px 0;
+  color: #d3d3d3;  // Hellerer Farbton für die Überschrift
+  font-family: 'Pacifico', cursive;
+  font-size: 32px;  // Größere Schriftgröße
 }

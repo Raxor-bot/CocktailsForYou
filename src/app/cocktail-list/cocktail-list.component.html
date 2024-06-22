@@ -1,6 +1,6 @@
 <div class="search-bar-container">
   <app-search-bar (searchEvent)="onSearch($event)"></app-search-bar>
-  <button (click)="toggleFilterMenu()" class="filter-button">Filter</button>
+  <button (click)="toggleFilterMenu()" class="filter-button">Zutaten Filter</button>
   <button (click)="randomCocktail()" class="reset-button">
     Zufall
     <fa-icon [icon]="['fas', 'random']"></fa-icon>
@@ -9,7 +9,7 @@
 </div>
 
 <div class="cocktail-list">
-  <app-filter-menu *ngIf="showFilterMenu" (filterApplied)="onFilterApplied($event)"></app-filter-menu>
+  <app-filter-menu *ngIf="showFilterMenu" (filterApplied)="onFilterApplied($event)" [filterData]="filterData"></app-filter-menu>
 
   <div  class="search-status">{{ searchStatus }}</div>
 

@@ -1,17 +1,26 @@
 <div class="filter-menu">
-  <div class="filter-section">
-    <h3>Muss Rein</h3>
-    <div *ngFor="let ingredient of includedIngredients">
-      <input type="text" [(ngModel)]="ingredient.value" placeholder="Zutat eingeben">
-    </div>
-    <button (click)="addIncludedIngredient()">+</button>
+  <h4>Suche deinen Cocktail, so wie du ihn am liebsten magst!</h4>
+  <h3>Was soll rein?</h3>
+  <div class="ingredient-input">
+    <input type="text" [(ngModel)]="includeIngredient" (keydown.enter)="addIncludedIngredient()" placeholder="Zutat eingeben">
+    <button (click)="addIncludedIngredient()">Hinzufügen</button>
   </div>
-  <div class="filter-section">
-    <h3>Muss Raus</h3>
-    <div *ngFor="let ingredient of excludedIngredients">
-      <input type="text" [(ngModel)]="ingredient.value" placeholder="Zutat eingeben">
-    </div>
-    <button (click)="addExcludedIngredient()">+</button>
+  <ul>
+    <li *ngFor="let ingredient of filterData.includedIngredients">
+      {{ ingredient }}
+      <button (click)="removeIncludedIngredient(ingredient)">Zutat entfernen</button>
+    </li>
+  </ul>
+
+  <h3>Was soll raus ?</h3>
+  <div class="ingredient-input">
+    <input type="text" [(ngModel)]="excludeIngredient" (keydown.enter)="addExcludedIngredient()" placeholder="Zutat eingeben">
+    <button (click)="addExcludedIngredient()">Hinzufügen</button>
   </div>
-  <button class="search-button" (click)="applyFilters()">Suchen</button>
+  <ul>
+    <li *ngFor="let ingredient of filterData.excludedIngredients">
+      {{ ingredient }}
+      <button (click)="removeExcludedIngredient(ingredient)">Zutat entfernen</button>
+    </li>
+  </ul>
 </div>

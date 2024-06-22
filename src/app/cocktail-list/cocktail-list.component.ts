@@ -30,6 +30,8 @@ export class CocktailListComponent implements OnInit {
   showFilterMenu = false;
   searchText: string = '';
   searchStatus = 'Top-Empfehlungen';
+  filterData: any = { includedIngredients: [], excludedIngredients: [] };
+  zufallPressed: boolean = false;
 
   allCocktails = [
     {
@@ -163,29 +165,50 @@ export class CocktailListComponent implements OnInit {
 
   toggleFilterMenu() {
     this.showFilterMenu = !this.showFilterMenu;
+    if(this.zufallPressed){
+      this.zufallPressed = false
+      this.filteredCocktails = [...this.allCocktails];
+      this.updateSearchStatus();
+    }
+
+    if (this.showFilterMenu) {
+      if(this.searchText.length >= 1 ){
+        this.searchText = '';
+        this.filteredCocktails = [...this.allCocktails];
+        this.updateSearchStatus();
+        this.searchBar.searchText = '';
+      }
+    }
   }
 
   onFilterApplied(filterData: any) {
+    this.filterData = filterData;
     this.filteredCocktails = this.allCocktails.filter(cocktail => {
-      // Überprüfe, ob alle enthaltenen Zutaten im Cocktail vorhanden sind
       const includesAll = filterData.includedIngredients.every((ingredient: string) =>
-        cocktail.shortIngredients.map(i => i.toLowerCase()).includes(ingredient.toLowerCase())
+        cocktail.shortIngredients.some(i => i.toLowerCase().includes(ingredient.toLowerCase()))
       );
 
-      // Überprüfe, ob alle ausgeschlossenen Zutaten im Cocktail nicht vorhanden sind
       const excludesAll = filterData.excludedIngredients.every((ingredient: string) =>
-        !cocktail.shortIngredients.map(i => i.toLowerCase()).includes(ingredient.toLowerCase())
+        !cocktail.shortIngredients.some(i => i.toLowerCase().includes(ingredient.toLowerCase()))
       );
 
       return includesAll && excludesAll;
     });
-    this.showFilterMenu = false;
+
+    const included = filterData.includedIngredients.length > 0 ? `Enthalten: ${filterData.includedIngredients.join(', ')}` : '';
+    const excluded = filterData.excludedIngredients.length > 0 ? `Ausgeschlossen: ${filterData.excludedIngredients.join(', ')}` : '';
+    this.searchText = [included, excluded].filter(text => text).join(' | ');
+
+    this.updateSearchStatus();
   }
 
   constructor() { }
 
   onSearch(searchText: string): void {
     this.searchText = searchText;
+    this.filterData = { includedIngredients: [], excludedIngredients: [] };
+    this.showFilterMenu = false;
+
     const minSearchLength = 3; // Minimale Anzahl von Zeichen, um Fehlertoleranz anzuwenden
     const maxTolerance = 3; // Maximal erlaubte Levenshtein-Distanz
     const tolerance = Math.max(1, Math.floor(searchText.length / 3)); // 1 Fehler pro 3 Zeichen, mindestens 1
@@ -211,6 +234,8 @@ export class CocktailListComponent implements OnInit {
   resetSearch() {
     this.searchText = '';
     this.filteredCocktails = [...this.allCocktails];
+    this.filterData = { includedIngredients: [], excludedIngredients: [] };
+    this.showFilterMenu = false;
     this.updateSearchStatus();
     this.searchBar.searchText = '';
 
@@ -220,17 +245,24 @@ export class CocktailListComponent implements OnInit {
   updateSearchStatus() {
     const count = this.filteredCocktails.length;
     const term = count === 1 ? 'Cocktail' : 'Cocktails';
+
     if (this.searchText) {
-      if(count === 0)
-        this.searchStatus = `${count} ${term} gefunden für "${this.searchText}" Hast du dich Vertippt?`;
-      if (count ===1)
-      this.searchStatus = `${count} ${term} gefunden für "${this.searchText}"`;
-    } else {
-      this.searchStatus = "Top-Empfehlungen"; // Set the status to an empty string if searchText is empty
+      if (count === 0) {
+        this.searchStatus = `${count} ${term} gefunden für "${this.searchText}". Hast du dich vertippt?`;
+      } else if (count === 1) {
+        this.searchStatus = `${count} ${term} gefunden für "${this.searchText}"`;
+      } else {
+        this.searchStatus = `${count} ${term} gefunden für "${this.searchText}"`;
+      }
+    } else if (this.searchText === '') {
+      this.searchStatus = 'Top-Empfehlungen';
     }
   }
 
   randomCocktail() {
+    this.showFilterMenu = false;
+    this.filterData = { includedIngredients: [], excludedIngredients: [] };
+    this.zufallPressed = true;
     this.filteredCocktails = this.allCocktails
     const randomIndex = Math.floor(Math.random() * this.filteredCocktails.length);
     const randomCocktail = this.filteredCocktails[randomIndex];

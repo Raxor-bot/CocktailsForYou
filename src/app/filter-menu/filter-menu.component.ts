@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Output} from '@angular/core';
+import {Component, EventEmitter, Input, Output} from '@angular/core';
 import {FormsModule} from "@angular/forms";
 import {CommonModule} from "@angular/common";
 
@@ -13,24 +13,39 @@ import {CommonModule} from "@angular/common";
   styleUrl: './filter-menu.component.scss'
 })
 export class FilterMenuComponent {
-  includedIngredients: { value: string }[] = [{ value: '' }];
-  excludedIngredients: { value: string }[] = [{ value: '' }];
+  includeIngredient: string = '';
+  excludeIngredient: string = '';
 
+  @Input() filterData: any = { includedIngredients: [], excludedIngredients: [] };
   @Output() filterApplied = new EventEmitter<any>();
 
+  applyFilter() {
+    this.filterApplied.emit(this.filterData);
+  }
+
   addIncludedIngredient() {
-    this.includedIngredients.push({ value: '' });
+    if (this.includeIngredient && !this.filterData.includedIngredients.includes(this.includeIngredient)) {
+      this.filterData.includedIngredients.push(this.includeIngredient);
+      this.includeIngredient = '';
+      this.applyFilter();
+    }
   }
 
   addExcludedIngredient() {
-    this.excludedIngredients.push({ value: '' });
+    if (this.excludeIngredient && !this.filterData.excludedIngredients.includes(this.excludeIngredient)) {
+      this.filterData.excludedIngredients.push(this.excludeIngredient);
+      this.excludeIngredient = '';
+      this.applyFilter();
+    }
   }
 
-  applyFilters() {
-    const filterData = {
-      includedIngredients: this.includedIngredients.map(i => i.value).filter(i => i),
-      excludedIngredients: this.excludedIngredients.map(i => i.value).filter(i => i)
-    };
-    this.filterApplied.emit(filterData);
+  removeIncludedIngredient(ingredient: string) {
+    this.filterData.includedIngredients = this.filterData.includedIngredients.filter((i: string) => i !== ingredient);
+    this.applyFilter();
+  }
+
+  removeExcludedIngredient(ingredient: string) {
+    this.filterData.excludedIngredients = this.filterData.excludedIngredients.filter((i: string) => i !== ingredient);
+    this.applyFilter();
   }
 }
