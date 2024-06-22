@@ -18,6 +18,7 @@
   &.expanded {
     background-color: #292929;
     border: 2px solid #7a42d6; // Hellerer Lilaton für den erweiterten Zustand
+    cursor: default;
   }
 
   .summary {

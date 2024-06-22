@@ -186,14 +186,24 @@ export class CocktailListComponent implements OnInit {
 
   onSearch(searchText: string): void {
     this.searchText = searchText;
-    const tolerance = 2; // Maximal erlaubte Levenshtein-Distanz
+    const minSearchLength = 3; // Minimale Anzahl von Zeichen, um Fehlertoleranz anzuwenden
+    const maxTolerance = 3; // Maximal erlaubte Levenshtein-Distanz
+    const tolerance = Math.max(1, Math.floor(searchText.length / 3)); // 1 Fehler pro 3 Zeichen, mindestens 1
 
-    this.filteredCocktails = this.allCocktails.filter(cocktail => {
-      const name = cocktail.name.toLowerCase();
-      const search = searchText.toLowerCase();
-      const distance = levenshtein(name, search);
-      return distance <= tolerance || name.startsWith(search);
-    });
+    if (searchText.length < minSearchLength) {
+      // Wenn der Suchtext kürzer als die Mindestlänge ist, mach eine normale Suche
+      this.filteredCocktails = this.allCocktails.filter(cocktail =>
+        cocktail.name.toLowerCase().startsWith(searchText.toLowerCase())
+      );
+    } else {
+      // Wenn der Suchtext länger oder gleich der Mindestlänge ist, mach eine fehlertolerante Suche
+      this.filteredCocktails = this.allCocktails.filter(cocktail => {
+        const name = cocktail.name.toLowerCase();
+        const search = searchText.toLowerCase();
+        const distance = levenshtein(name, search);
+        return distance <= Math.min(tolerance, maxTolerance) || name.startsWith(search);
+      });
+    }
 
     this.updateSearchStatus();
   }
@@ -211,6 +221,9 @@ export class CocktailListComponent implements OnInit {
     const count = this.filteredCocktails.length;
     const term = count === 1 ? 'Cocktail' : 'Cocktails';
     if (this.searchText) {
+      if(count === 0)
+        this.searchStatus = `${count} ${term} gefunden für "${this.searchText}" Hast du dich Vertippt?`;
+      if (count ===1)
       this.searchStatus = `${count} ${term} gefunden für "${this.searchText}"`;
     } else {
       this.searchStatus = "Top-Empfehlungen"; // Set the status to an empty string if searchText is empty
