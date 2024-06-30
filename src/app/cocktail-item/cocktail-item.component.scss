@@ -35,7 +35,7 @@
         margin: 0 0 10px 0;
         color: #d3d3d3;  // Hellerer Farbton für die Überschrift
         font-family: 'Pacifico', cursive;
-        font-size: 32px;  // Größere Schriftgröße
+        font-size: 32px;
       }
 
       p {
@@ -56,7 +56,7 @@
       img {
         width: 100%;
         height: 100%;
-        object-fit: cover; // Damit das Bild vollständig das Element ausfüllt
+        object-fit: cover;
         border: 2px solid #5d3fd3;  // Dunklerer Lilaton
         border-radius: 10px;
       }
@@ -65,7 +65,7 @@
 
   .details {
     display: flex;
-    flex-direction: column; // Ändern zu column, um die Inhalte untereinander zu platzieren
+    flex-direction: column;
     width: 100%;
 
     .details-header {
@@ -79,7 +79,7 @@
       h4 {
         color: #ffffff;  // Helle Farbe für die Überschrift
         font-family: 'Pacifico', cursive;
-        font-size: 30px;  // Größere Schriftgröße
+        font-size: 30px;
       }
 
       .collapse-button {
@@ -89,7 +89,7 @@
         padding: 5px 10px;
         cursor: pointer;
         border-radius: 5px;
-        font-size: 24px;  // Größere Schriftgröße
+        font-size: 24px;
 
         &:hover {
           background-color: darken(#5d3fd3, 10%);
@@ -116,7 +116,7 @@
             margin: 0 0 10px 0;
             color: #ffffff;  // Helle Farbe für die Überschrift
             font-family: 'Pacifico', cursive;
-            font-size: 28px;  // Größere Schriftgröße
+            font-size: 28px;
           }
 
           ul {
@@ -150,7 +150,7 @@
         img {
           width: 100%;
           height: 100%;
-          object-fit: cover; // Damit das Bild vollständig das Element ausfüllt
+          object-fit: cover;
           border: 2px solid #5d3fd3;  // Dunklerer Lilaton
           border-radius: 10px;
         }
@@ -163,7 +163,7 @@
       margin: 0 0 10px 0;
       color: #ffffff;  // Helle Farbe für die Überschrift
       font-family: 'Pacifico', cursive;
-      font-size: 28px;  // Größere Schriftgröße
+      font-size: 28px;
     }
 
     ul {
@@ -174,7 +174,7 @@
         margin: 5px 0;
         color: #b0b0b0;  // Leicht hellere Farbe für den Text
         font-family: 'Open Sans', sans-serif;
-        font-size: 20px;  // Größere Schriftgröße
+        font-size: 20px;
         line-height: 1.6;
       }
     }
@@ -183,7 +183,7 @@
       margin: 5px 0;
       color: #b0b0b0;  // Leicht hellere Farbe für den Text
       font-family: 'Open Sans', sans-serif;
-      font-size: 20px;  // Größere Schriftgröße
+      font-size: 20px;
       line-height: 1.6;
     }
   }
